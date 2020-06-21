@@ -1,46 +1,40 @@
 package com.github.codingdong;
 
-import com.github.codingdong.reflection.AbstractDialect;
 import com.github.codingdong.reflection.DialectFactory;
+import com.github.codingdong.reflection.parser.Parser;
 
-import java.net.URL;
+import java.lang.reflect.Method;
 
 /**
  * <p>Description: </p>
  *
  * @author dbx
- * @date 2020/6/19 15:10
+ * @date 2020/6/21 11:47
  * @since JDK1.8
  */
 public class App {
 
     public static void main(String[] args) {
-
-        App app = new App();
-        URL url = app.getClass().getResource("/test.txt");
-
-        System.out.println("resources------------"+ url.getFile());
-
-        System.out.println("start---------------");
+        System.out.println("start scan package---------------");
         DialectFactory factory = new DialectFactory();
 
         //注册所有类型
-        factory.registerDialect("com.github.codingdong.reflection.dialect");
+        factory.registerClassByAnnotation("com.github.codingdong.reflection.parser", Parser.class);
 
-        Class<?> mysql = factory.getDialectClass("mysql");
+        Class<?> mysql = factory.getRegisterClass("mysql");
 
-        AbstractDialect dialect;
-        try {
-            if (mysql != null) {
-                dialect = (AbstractDialect)mysql.newInstance();
-                String aliasName = dialect.getAliasName();
+        if (mysql != null) {
+            try {
+                Object obj = mysql.newInstance();
 
-                dialect.deal();
+                Method[] deals = mysql.getMethods();
 
-                System.out.println("aliasName---" + aliasName);
+                deals[0].invoke(obj);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+
         }
     }
 }

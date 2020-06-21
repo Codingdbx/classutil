@@ -1,7 +1,5 @@
 package com.github.codingdong.reflection.dialect;
 
-import com.github.codingdong.reflection.AbstractDialect;
-
 /**
  * <p>Description: </p>
  *

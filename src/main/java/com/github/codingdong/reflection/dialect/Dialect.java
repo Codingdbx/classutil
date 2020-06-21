@@ -1,4 +1,4 @@
-package com.github.codingdong.reflection;
+package com.github.codingdong.reflection.dialect;
 
 /**
  * <p>Description: </p>
